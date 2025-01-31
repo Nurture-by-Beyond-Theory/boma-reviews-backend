@@ -12,6 +12,7 @@ import User, { IUser } from '../models/user.model';
 export const submitReview = async (req: Request, res: Response): Promise<void> => {
   try {
     const { tenantId, landlordId, ratings, comment, propertyDetails } = req.body;
+    const photo = req.file ? req.file.path : null; // Get Cloudinary URL
 
     // Validate required fields
     if (!propertyDetails || !propertyDetails.location || !propertyDetails.rent) {
@@ -56,6 +57,7 @@ export const submitReview = async (req: Request, res: Response): Promise<void> =
       landlord: landlord._id,
       ratings,
       comment,
+      photo, // Store URL
     });
 
     await review.save();
